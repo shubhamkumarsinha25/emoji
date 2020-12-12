@@ -1,5 +1,10 @@
+import 'package:emoji/emojiclass.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'emojireaction.dart';
+
+ReactionPredicter reactionPredicter = ReactionPredicter();
 
 void main() => runApp(MaterialApp(
       home: Scaffold(
@@ -19,38 +24,67 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int lpic = 2;
-  int rpic = 2;
   void emojiface() {
     setState(() {
-      lpic = Random().nextInt(5) + 1;
-      rpic = Random().nextInt(5) + 1;
+      reactionPredicter.getrandom();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: FlatButton(
-              onPressed: () {
-                emojiface();
-              },
-              child: Image.asset('images/pic$rpic.png'),
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {
+                    emojiface();
+                  },
+                  child: Image.asset(
+                      'images/' + reactionPredicter.getimagrright() + '.png'),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {
+                    emojiface();
+                  },
+                  child: Image.asset(
+                      'images/' + reactionPredicter.getimagrleft() + '.png'),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: FlatButton(
-              onPressed: () {
-                emojiface();
-              },
-              child: Image.asset('images/pic$lpic.png'),
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                reactionPredicter.getreactionright(),
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
+            Expanded(
+              child: Text(
+                reactionPredicter.getreactionleft(),
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          ],
+        )
+      ],
     );
   }
 }
